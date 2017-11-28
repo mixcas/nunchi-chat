@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import MessageInput  from './MessageInput'
+import ChatInput  from './ChatInput'
 import MessagesList  from './MessagesList'
 
 class Chat extends Component {
@@ -9,7 +9,7 @@ class Chat extends Component {
     return (
       <div>
         <MessagesList />
-        <MessageInput />
+        <ChatInput />
       </div>
     )
   }

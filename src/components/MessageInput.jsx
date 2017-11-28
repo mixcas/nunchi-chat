@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import Webcam from 'react-webcam'
+import mergeImages from 'merge-images'
 import { firebaseApp, messageRef } from '../firebase'
 
-import Login  from './Login'
+import { WIDTH } from '../constants'
 
 class MessageInput extends Component {
 
@@ -12,51 +13,91 @@ class MessageInput extends Component {
     this.state = {
       message: '',
     }
+
+    this.time = 1500
+    this.frames = 5
+
   }
 
   signOut() {
     firebaseApp.auth().signOut()
   }
 
-  addMessage() {
+  sendMessage(image) {
     const { message } = this.state
     const { email } = this.props.user
-    messageRef.push({ email, message });
+    messageRef.push({ email, message, image })
     this.input.value = ''
   }
 
-  render() {
-    if(this.props.user.email) {
-      return (
-        <div>
-          <input
-            ref={ ref => this.input = ref}
-            type='text'
-            placeholder='tu mensaje'
-            onChange={event => this.setState({ message: event.target.value })}
-          />
-          <button
-            onClick={() => this.addMessage()}
-            type='button'>
-            Enviar
-          </button>
-          <button onClick={() => this.signOut()}>Sign Out</button>
-        </div>
-      )
-    } else {
-      return(
-        <Login />
-      )
+  getImage() {
+    const frames = this.getFrames()
+
+    const image = this.joinFrames(frames)
+
+    return image
+  }
+
+  getFrames() {
+
+    let frames = []
+
+    for(let x = 0; x < this.frames; x++) {
+      if (x === 0) {
+        frames[x] = {
+          src: this.webcam.getScreenshot(),
+          x: WIDTH * x,
+          y: 0,
+        }
+      } else {
+        setTimeout(() => {
+          frames[x] = {
+            src: this.webcam.getScreenshot(),
+            x: WIDTH * x,
+            y: 0,
+          }
+
+          if(frames.length === this.frames) {
+            mergeImages(frames, {
+              width: WIDTH * this.frames,
+              height: WIDTH * .75
+            }).then(image => {
+              this.sendMessage(image)
+            })
+          }
+
+        }, this.time/5 * x)
+      }
+
     }
+
+  }
+
+  render() {
+    return (
+      <div>
+        <Webcam
+          audio={false}
+          width={WIDTH}
+          height={'auto'}
+          screenshotFormat='image/jpeg'
+          ref={ref => this.webcam = ref}
+        />
+        <input
+          ref={ ref => this.input = ref}
+          type='text'
+          placeholder='tu mensaje'
+          onChange={event => this.setState({ message: event.target.value })}
+        />
+        <button
+          onClick={() => this.getFrames()}
+          type='button'>
+          Enviar
+        </button>
+        <button onClick={() => this.signOut()}>Sign Out</button>
+      </div>
+    )
   }
 }
 
-function mapStateToProps(state) {
-  const { user } = state;
-
-  return {
-    user,
-  }
-}
-
-export default connect(mapStateToProps, null)(MessageInput)
+export default MessageInput

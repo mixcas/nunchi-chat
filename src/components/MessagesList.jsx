@@ -4,6 +4,9 @@ import { setMessages } from '../actions'
 
 import { messageRef } from '../firebase'
 
+import AnimatedFrames from './AnimatedFrames'
+
+
 class MessagesList extends Component {
   componentDidMount() {
     messageRef.on('value', snapshot => {
@@ -19,12 +22,19 @@ class MessagesList extends Component {
 
   render() {
     let { messages } = this.props
-    // messages = messages.slice(messages.length - 4, messages.length )
+
+    messages = messages.slice(messages.length - 4, messages.length )
+
     return (
       <div>
         {
           messages.map((message,index) => {
-            return <p key={index}><b>{message.email}</b>: {message.message}</p>
+            return (
+              <div key={index}>
+                <AnimatedFrames image={message.image} />
+                <p>{message.message}</p>
+              </div>
+            )
           })
         }
       </div>
