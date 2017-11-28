@@ -2,6 +2,7 @@
   "name": "nunchi-chat",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://nunchi-chat.firebaseapp.com/",
   "dependencies": {
     "firebase": "^4.6.2",
     "react": "^16.1.1",
