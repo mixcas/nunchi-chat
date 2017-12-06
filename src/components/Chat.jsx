@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import ChatInput  from './ChatInput'
@@ -20,4 +21,6 @@ function mapStateToProps(state) {
   return {}
 }
 
-export default connect(mapStateToProps,null)(Chat)
+export default withRouter(
+  connect(mapStateToProps,null)(Chat)
+)

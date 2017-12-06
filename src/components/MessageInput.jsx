@@ -19,8 +19,16 @@ class MessageInput extends Component {
 
   }
 
+  componentDidMount() {
+    this.input.focus()
+  }
+
   signOut() {
     firebaseApp.auth().signOut()
+  }
+
+  submitMessage() {
+    this.getFrames()
   }
 
   sendMessage(image) {
@@ -75,7 +83,7 @@ class MessageInput extends Component {
 
   render() {
     return (
-      <div>
+      <form onSubmit={event => event.preventDefault()}>
         <Webcam
           audio={false}
           width={WIDTH}
@@ -90,12 +98,12 @@ class MessageInput extends Component {
           onChange={event => this.setState({ message: event.target.value })}
         />
         <button
-          onClick={() => this.getFrames()}
-          type='button'>
+          onClick={() => this.submitMessage()}
+          type='submit'>
           Enviar
         </button>
-        <button onClick={() => this.signOut()}>Sign Out</button>
-      </div>
+        <a onClick={() => this.signOut()}>Sign Out</a>
+      </form>
     )
   }
 }

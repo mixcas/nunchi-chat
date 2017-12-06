@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { firebaseApp, usersRef } from '../firebase'
+import { firebaseApp } from '../firebase'
 
 class Signup extends Component {
   constructor(props) {
@@ -15,28 +15,30 @@ class Signup extends Component {
     }
   }
 
+  componentDidMount() {
+    this.email.focus()
+  }
+
   signup() {
     const { email, username, password } = this.state
 
-    firebaseApp.auth().createUserWithEmailAndPassword(email, password).catch(error => {
-      if(error) {
-        this.setState({error});
-        console.log(error)
-      }
-    }).then(user => {
-      if(user) {
-        usersRef.child(user.uid).set({username}).catch(error => {
+    firebaseApp.auth().createUserWithEmailAndPassword(email, password)
+      .then(user => {
+        user.updateProfile({
+          username,
+        })
+      })
+      .catch(error => {
+        if(error) {
           this.setState({error});
           console.log(error)
-        })
-      }
-    })
+        }
+      })
   }
 
   render() {
     return (
-      <div>
-        <h2>Registrate</h2>
+      <form onSubmit={event => event.preventDefault()}>
         <input
           ref={ ref => this.email = ref}
           type='text'
@@ -57,11 +59,11 @@ class Signup extends Component {
         />
         <button
           onClick={() => this.signup()}
-          type='button'>
-          Enviar
+          type='submit'>
+          Registrarse
         </button>
         <p>{this.state.error.message}</p>
-      </div>
+      </form>
     )
   }
 }

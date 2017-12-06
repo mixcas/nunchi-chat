@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
+import { Route, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import Login  from './Login'
 import MessageInput  from './MessageInput'
+import Signup  from './Signup'
+import Login  from './Login'
 
 class ChatInput extends Component {
 
@@ -13,7 +15,10 @@ class ChatInput extends Component {
       )
     } else {
       return(
-        <Login />
+        <div>
+          <Route exact path='/' component={Login} />
+          <Route path='/signup' component={Signup} />
+        </div>
       )
     }
   }
@@ -27,4 +32,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, null)(ChatInput)
+export default withRouter(connect(mapStateToProps, null)(ChatInput))

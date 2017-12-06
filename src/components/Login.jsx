@@ -10,18 +10,30 @@ class Login extends Component {
       email: '',
       username: '',
       password: '',
+      error: {
+        message: '',
+      },
     }
+  }
+
+  componentDidMount() {
+    this.email.focus()
   }
 
   login() {
     const { email, password } = this.state
     firebaseApp.auth().signInWithEmailAndPassword(email, password)
+      .catch(error => {
+        if(error) {
+          this.setState({error});
+          console.log(error)
+        }
+      })
   }
 
   render() {
     return (
-      <div>
-        <h2>Login</h2>
+      <form onSubmit={event => event.preventDefault()}>
         <input
           ref={ ref => this.email = ref}
           type='text'
@@ -36,11 +48,12 @@ class Login extends Component {
         />
         <button
           onClick={() => this.login()}
-          type='button'>
-          Enviar
+          type='submit'>
+          Iniciar Sesion
         </button>
-        <Link to='/signup'>Registro</Link>
-      </div>
+        <Link to='/signup'>Registrate</Link>
+        <p>{this.state.error.message}</p>
+      </form>
     )
   }
 }
