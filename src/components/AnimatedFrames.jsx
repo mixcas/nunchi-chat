@@ -10,7 +10,8 @@ const AnimatedDiv = styled.div`
   height: ${(WIDTH * .75) + 'px'};
   background-position-x: 0;
   background-image: ${props => 'url(' + props.image + ')'};
-  animation: ${framesAnimation} 500ms infinite
+  animation: ${framesAnimation} 500ms infinite;
+  margin: 0 5px;
 `
 
 const AnimatedFrames = ({image}) => {

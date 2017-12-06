@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import styled from 'styled-components';
+
 import { connect } from 'react-redux'
 import { setMessages } from '../actions'
 
@@ -6,6 +8,14 @@ import { messageRef } from '../firebase'
 
 import AnimatedFrames from './AnimatedFrames'
 
+const Message = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  width: 50vw;
+  margin-bottom: 5px;
+`
 
 class MessagesList extends Component {
   componentDidMount() {
@@ -30,10 +40,10 @@ class MessagesList extends Component {
         {
           messages.map((message,index) => {
             return (
-              <div key={index}>
+              <Message key={index}>
                 <AnimatedFrames image={message.image} />
                 <p>{message.message}</p>
-              </div>
+              </Message>
             )
           })
         }
