@@ -12,6 +12,7 @@ class MessageInput extends Component {
 
     this.state = {
       message: '',
+      disabled: false,
     }
 
     this.time = 1500
@@ -28,6 +29,8 @@ class MessageInput extends Component {
   }
 
   submitMessage() {
+    this.setState({ disabled: true })
+    this.input.value = ''
     this.getFrames()
   }
 
@@ -35,7 +38,7 @@ class MessageInput extends Component {
     const { message } = this.state
     const { email } = this.props.user
     messageRef.push({ email, message, image })
-    this.input.value = ''
+    this.setState({ disabled: false })
   }
 
   getImage() {
@@ -94,6 +97,7 @@ class MessageInput extends Component {
         <input
           ref={ ref => this.input = ref}
           type='text'
+          disabled={this.state.disabled}
           placeholder='tu mensaje'
           onChange={event => this.setState({ message: event.target.value })}
         />
