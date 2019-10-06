@@ -19,7 +19,7 @@ const Message = styled.div`
 
 class MessagesList extends Component {
   componentDidMount() {
-    messageRef.on('value', snapshot => {
+    messageRef.limitToLast(20).on('value', snapshot => {
       let messages = []
 
       snapshot.forEach(message => {

@@ -1,17 +1,31 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 
 import ChatInput  from './ChatInput'
 import MessagesList  from './MessagesList'
+import Youtube  from './Youtube'
+
+const ChatContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`
+
+const MessagesListWrapper = styled.div`
+  flex: 1 0 30%;
+`
 
 class Chat extends Component {
   render() {
     return (
-      <div>
-        <MessagesList />
-        <ChatInput />
-      </div>
+      <ChatContainer>
+        <Youtube/>
+        <MessagesListWrapper>
+          <MessagesList />
+          <ChatInput />
+        </MessagesListWrapper>
+      </ChatContainer>
     )
   }
 }
