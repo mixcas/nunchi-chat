@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import { injectGlobal } from 'styled-components';
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 
 import Chat  from './Chat'
 
-injectGlobal`
+const AppWrapper = styled.div`
   @font-face {
     font-family: 'SaniTrixieSansRegular';
     src: url('/fonts/SaniTrixieSans.ttf');
@@ -21,13 +20,14 @@ class App extends Component {
 
   render() {
     return (
-      <Chat />
+      <AppWrapper>
+        <Chat />
+      </AppWrapper>
     )
   }
 }
 
 function mapStateToProps(state) {
-  console.log('state', state)
   let { user } = state
 
   return {
@@ -35,4 +35,4 @@ function mapStateToProps(state) {
   }
 }
 
-export default withRouter(connect(mapStateToProps, null)(App))
+export default connect(mapStateToProps, null)(App)

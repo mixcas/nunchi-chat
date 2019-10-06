@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
@@ -35,6 +34,4 @@ function mapStateToProps(state) {
   return {}
 }
 
-export default withRouter(
-  connect(mapStateToProps,null)(Chat)
-)
+export default connect(mapStateToProps,null)(Chat)

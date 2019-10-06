@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
 import { firebaseApp } from '../firebase'
 
 class Login extends Component {
   constructor(props) {
     super(props)
-
     this.state = {
+
       email: '',
       username: '',
       password: '',
@@ -51,7 +50,6 @@ class Login extends Component {
           type='submit'>
           Iniciar Sesion
         </button>
-        <Link to='/signup'>Registrate</Link>
         <p>{this.state.error.message}</p>
       </form>
     )
