@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { firebaseApp } from '../firebase'
+import { withFirebase } from 'react-redux-firebase'
 
-class Login extends Component {
+class Signup extends Component {
   constructor(props) {
     super(props)
-    this.state = {
 
+    this.state = {
       email: '',
       username: '',
       password: '',
@@ -19,9 +19,16 @@ class Login extends Component {
     this.email.focus()
   }
 
-  login() {
-    const { email, password } = this.state
-    firebaseApp.auth().signInWithEmailAndPassword(email, password)
+  signup() {
+    const  { firebase } = this.props
+    const { email, username, password } = this.state
+
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(user => {
+        user.updateProfile({
+          username,
+        })
+      })
       .catch(error => {
         if(error) {
           this.setState({error});
@@ -40,15 +47,21 @@ class Login extends Component {
           onChange={event => this.setState({ email: event.target.value })}
         />
         <input
+          ref={ ref => this.username = ref}
+          type='text'
+          placeholder='Username'
+          onChange={event => this.setState({ username: event.target.value })}
+        />
+        <input
           ref={ ref => this.password = ref}
           type='password'
           placeholder='Password'
           onChange={event => this.setState({ password: event.target.value })}
         />
         <button
-          onClick={() => this.login()}
+          onClick={() => this.signup()}
           type='submit'>
-          Iniciar Sesion
+          Registrarse
         </button>
         <p>{this.state.error.message}</p>
       </form>
@@ -56,4 +69,4 @@ class Login extends Component {
   }
 }
 
-export default Login
+export default withFirebase(Signup)

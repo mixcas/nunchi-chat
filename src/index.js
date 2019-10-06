@@ -1,37 +1,21 @@
-//eslint-disable import/first
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter as Router } from 'react-router-dom'
-import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import { firebaseApp } from './firebase'
 
-import { logUser, logOutUser } from './actions'
-import reducer from './reducers'
-
-import App from './components/App.jsx'
-
-const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
-
-// Bind firebase auth
-firebaseApp.auth().onAuthStateChanged(user => {
-  if(user) {
-    console.log('User logged')
-
-    const { email, username } = user
-    store.dispatch(logUser(email))
-  } else {
-    console.log('No user')
-    store.dispatch(logOutUser())
-  }
-})
+import store from 'lib/store'
+import App from './App'
+import * as serviceWorker from 'serviceWorker'
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
-      <App />
-    </Router>
-  </Provider>
-  ,
+    <App />
+  </Provider>,
   document.getElementById('root')
 )
+
+console.log('NODE_ENV', process.env.NODE_ENV)
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: http://bit.ly/CRA-PWA
+serviceWorker.register()

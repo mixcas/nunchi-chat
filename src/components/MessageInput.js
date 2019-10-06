@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Webcam from 'react-webcam'
 import mergeImages from 'merge-images'
-import { firebaseApp, messageRef } from '../firebase'
+import { withFirebase } from 'react-redux-firebase'
 
 import { WIDTH } from '../constants'
 
@@ -21,24 +21,24 @@ class MessageInput extends Component {
   }
 
   componentDidMount() {
-    this.input.focus()
-  }
-
-  signOut() {
-    firebaseApp.auth().signOut()
+    debugger
+    // this.input.focus()
   }
 
   submitMessage() {
     this.setState({ disabled: true })
-    this.input.value = ''
     this.getFrames()
   }
 
   sendMessage(image) {
+    const { firebase } = this.props
     const { message } = this.state
     const { email } = this.props.user
-    messageRef.push({ email, message, image })
-    this.setState({ disabled: false })
+
+    firebase.push('messages', { email, message, image })
+      .then( res => {
+        this.setState({ disabled: false, message: '' })
+      })
   }
 
   getImage() {
@@ -95,21 +95,20 @@ class MessageInput extends Component {
           ref={ref => this.webcam = ref}
         />
         <input
-          ref={ ref => this.input = ref}
           type='text'
           disabled={this.state.disabled}
           placeholder='tu mensaje'
           onChange={event => this.setState({ message: event.target.value })}
+          value={this.state.message}
         />
         <button
           onClick={() => this.submitMessage()}
           type='submit'>
           Enviar
         </button>
-        <a onClick={() => this.signOut()}>Sign Out</a>
       </form>
     )
   }
 }
 
-export default MessageInput
+export default withFirebase(MessageInput)

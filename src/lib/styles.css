@@ -1,0 +1,77 @@
+:root {
+  --light: #f2f1ef;
+  --dark: #070d0d;
+}
+
+@font-face {
+  font-family: 'SaniTrixieSansRegular';
+  src: url('/fonts/SaniTrixieSans.ttf');
+}
+
+body {
+  /*background-color: var(--dark);*/
+  /*color: var(--light);*/
+  font-family: 'SaniTrixieSansRegular';
+  margin: 0;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* MAIN CONTAINER */
+.main-container {
+  display: flex;
+  flex-direction: row;
+}
+
+/* PLAYER */
+.player-container {
+  flex: 1 0 70%;
+}
+
+/* CHAT */
+.chat-container {
+  flex: 1 0 30%;
+}
+
+
+.chat {
+  display: flex;
+  flex-direction: row;
+}
+
+.animated-frames  {
+  width: 190px;
+  height: 142.5px;
+	background-position-x: 0;
+	animation: framesAnimation 500ms infinite;
+	margin: 0 5px;
+}
+
+@keyframes framesAnimation {
+ 0% {
+   background-position: 0;
+    animation-timing-function: steps(1);
+ }
+ 20% {
+   background-position: -25%;
+    animation-timing-function: steps(1);
+ }
+ 40% {
+   background-position: -50%;
+    animation-timing-function: steps(1);
+ }
+ 60% {
+   background-position: -75%;
+    animation-timing-function: steps(1);
+ }
+ 80% {
+   background-position: -100%;
+    animation-timing-function: steps(1);
+ }
+}
+

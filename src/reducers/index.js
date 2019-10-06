@@ -1,8 +1,17 @@
 import { combineReducers } from 'redux'
-import user from './reducer_user.js'
-import messages from './reducer_messages.js'
+import { firebaseReducer } from 'react-redux-firebase'
+import { firestoreReducer } from 'redux-firestore'
 
-export default combineReducers({
-  user,
-  messages,
+// Reducers
+const appReducer = combineReducers({
+  firebase: firebaseReducer,
+  firestore: firestoreReducer,
 })
+
+// Setup root reducer
+const rootReducer = (state, action) => {
+  const newState = (action.type === 'RESET') ? undefined : state
+  return appReducer(newState, action)
+}
+
+export default rootReducer
