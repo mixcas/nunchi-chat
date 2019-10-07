@@ -89,9 +89,17 @@ class PlaylistContainer extends Component {
     const { playlist } = this.props
 
     if (!isLoaded(playlist)) {
-      return <p>Loading</p>
+      return (
+        <div className='player-container'>
+          <p>Loading</p>
+        </div>
+      )
     } else if (isEmpty(playlist)) {
-      return <p>Empty</p>
+      return (
+        <div className='player-container'>
+          <p>Empty</p>
+        </div>
+      )
     }
 
     const currentVideo = this.findVideoByStatus('playing')
@@ -104,20 +112,24 @@ class PlaylistContainer extends Component {
     return(
       <div className='player-container'>
         {currentVideo && (
-          <YouTube
-            videoId={currentVideo.id}
-            onReady={this.handleOnReady}
-            onEnd={this.handleOnEnd}
-            onStateChange={this.handleStateChange}
-            onPause={this.handleOnPause}
-            opts={{
-              playerVars: {
-                autoplay: 1,
-                showInfo: 0,
-                // controls: 0,
-              }
-            }}
-          />
+          <div className='video-container'>
+            <div className='responsive-video-container'>
+              <YouTube
+                videoId={currentVideo.id}
+                onReady={this.handleOnReady}
+                onEnd={this.handleOnEnd}
+                onStateChange={this.handleStateChange}
+                onPause={this.handleOnPause}
+                opts={{
+                  playerVars: {
+                    autoplay: 1,
+                    showInfo: 0,
+                    // controls: 0,
+                  }
+                }}
+              />
+            </div>
+          </div>
         )}
       </div>
     )
