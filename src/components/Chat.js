@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import Header from 'components/Header'
 import ChatContainer from 'components/ChatContainer'
+import PlaylistContainer from 'containers/PlaylistContainer'
 
 class Chat extends Component {
 	render() {
@@ -9,9 +10,7 @@ class Chat extends Component {
       <div>
         <Header />
         <div className='main-container'>
-          <div className='player-container'>
-            asdad
-          </div>
+          <PlaylistContainer/>
           <ChatContainer/>
         </div>
       </div>
