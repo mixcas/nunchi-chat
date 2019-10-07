@@ -11,6 +11,14 @@ class ChatControls extends Component {
     login: true,
   }
 
+  switchLogin = () => {
+    this.setState( currentState => {
+      return {
+        login: !currentState.login,
+      }
+    })
+  }
+
   render() {
     const { user } = this.props
     const { login } = this.state
@@ -19,9 +27,19 @@ class ChatControls extends Component {
       return null
     } else if (isEmpty(user)) {
       if (login) {
-        return <Login/>
+        return (
+          <>
+            <Login/>
+            <button onClick={this.switchLogin}>Registrarse</button>
+          </>
+        )
       } else {
-        return <Signup/>
+        return (
+          <>
+            <Signup/>
+            <button onClick={this.switchLogin}>Iniciar Sesión</button>
+          </>
+        )
       }
     } else {
       return (

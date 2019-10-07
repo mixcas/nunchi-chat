@@ -1,9 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { isLoaded, isEmpty, firebaseConnect } from 'react-redux-firebase'
+import { isLoaded, isEmpty, withFirebase } from 'react-redux-firebase'
 
-const Header = ({ user }) => {
+const Header = ({ user, firebase }) => {
+
+  const handleSignOut = () => {
+    if (window.confirm('Segurx que deseas salir?') ) {
+      firebase.auth().signOut()
+    }
+  }
   return (
     <div className='header'>
       <div>
@@ -12,7 +18,7 @@ const Header = ({ user }) => {
 
       {isLoaded(user) && !isEmpty(user) ? (
         <div>
-          <button>Salir</button>
+          <button onClick={handleSignOut}>Salir</button>
         </div>
       ) : null}
     </div>
@@ -25,4 +31,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Header)
+export default compose(
+  withFirebase,
+  connect(mapStateToProps)
+)(Header)
